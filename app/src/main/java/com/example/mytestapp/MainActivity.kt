@@ -25,9 +25,9 @@ class MainActivity : ComponentActivity() {
                     composable("buy_or_sell") { AddOrSellStockScreen(navController = navController) }
 
                     composable("buy_or_sell?name={name}&price={price}&quantity={quantity}") { navBackStackEntry ->
-                        val name = navBackStackEntry.arguments?.getString("name") ?: ""
-                        val price = navBackStackEntry.arguments?.getString("price")?.toDoubleOrNull() ?: 0.0
-                        val quantity = navBackStackEntry.arguments?.getString("quantity")?.toIntOrNull() ?: 0
+                        val name = navBackStackEntry.arguments?.getString("name")
+                        val price = navBackStackEntry.arguments?.getString("price")
+                        val quantity = navBackStackEntry.arguments?.getString("quantity")
                         AddOrSellStockScreen(name, price, quantity, navController)
                     }
 
