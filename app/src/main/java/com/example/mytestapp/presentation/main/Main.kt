@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mytestapp.R
+import com.example.mytestapp.navigator.getBuyOrSellRoute
 import kotlin.random.Random
 
 @SuppressLint("UnrememberedMutableState")
@@ -248,7 +249,8 @@ fun GreenStockBlock(
             .background(Color.Gray)
             .shadow(4.dp)
             .clickable {
-                navController.navigate("buy_or_sell?name=$name&price=$price&quantity=$quantity")
+                val route = getBuyOrSellRoute(name, price, quantity)
+                navController.navigate(route)
             }
     ) {
         Column(
