@@ -32,12 +32,11 @@ import com.example.mytestapp.R
 import kotlin.system.exitProcess
 
 
-//@Preview(showSystemUi = true)
 @Composable
 fun HomeScreen(
     navController: NavController
 ) {
-    val totalBalance by remember { mutableStateOf(100) }
+    val totalBalance by remember { mutableStateOf(getTotalBalance()) }
 
     Column(
         modifier = Modifier
@@ -46,46 +45,61 @@ fun HomeScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val borderWidth = 4.dp
-        Image(
-            painter = painterResource(R.drawable.img),
-            contentDescription = "cat",
 
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(150.dp)
-                .border(
-                    BorderStroke(borderWidth, Color.Yellow),
-                    CircleShape
-                )
-                .padding(borderWidth)
-                .clip(CircleShape)
-        )
-
-        // Отступ между изображением пользователя и "Total balance"
+        ProfileImage()
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Отображение "Total balance" по середине
         Text(text = "Total balance: $totalBalance", style = MaterialTheme.typography.bodyMedium)
-
-        // Кнопка перехода в раздел инвестиций
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = { navController.navigate("investments") },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Перейти в раздел инвестиций")
-        }
 
-        // Отступ между "Total balance" и кнопкой
+        GoMainScreenButton(navController)
         Spacer(modifier = Modifier.weight(1f))
 
-        TextButton(
-            onClick = {
-                exitProcess(0)
-            }
-        ) {
-            Text(text = "Exit", color = MaterialTheme.colorScheme.primary)
+        ExitButton()
+    }
+}
+
+fun getTotalBalance(): Int {
+    return 100
+}
+
+
+@Composable
+fun ProfileImage() {
+    val borderWidth = 4.dp
+    Image(
+        painter = painterResource(R.drawable.img),
+        contentDescription = "cat",
+
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(150.dp)
+            .border(
+                BorderStroke(borderWidth, Color.Yellow),
+                CircleShape
+            )
+            .padding(borderWidth)
+            .clip(CircleShape)
+    )
+}
+
+@Composable
+fun GoMainScreenButton(navController: NavController) {
+    Button(
+        onClick = { navController.navigate("investments") },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = "Перейти в раздел инвестиций")
+    }
+}
+
+@Composable
+fun ExitButton() {
+    TextButton(
+        onClick = {
+            exitProcess(0)
         }
+    ) {
+        Text(text = "Exit", color = MaterialTheme.colorScheme.primary)
     }
 }
