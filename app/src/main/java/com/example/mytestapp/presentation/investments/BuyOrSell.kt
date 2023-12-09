@@ -23,7 +23,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+//Icon(
+//imageVector = Icons.Default.Close,
+//contentDescription = "Delete",
+//tint = Color.Red,
+//modifier = Modifier
+//.size(48.dp)
+//.clickable {
+//    deleteBlock()
+//}
+//.padding(8.dp)
+//)
 
+//fun deleteBlock() {
+//    println("удалили блок")
+//}
 private fun isValidInput(textValue: String, numericValue: Double, intValue: Int): Boolean {
     return textValue.isNotEmpty() && numericValue != 0.0 && intValue != 0
 }

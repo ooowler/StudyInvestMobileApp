@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mytestapp.presentation.home.HomeScreen
 import com.example.mytestapp.presentation.investments.AddOrSellStockScreen
-import com.example.mytestapp.presentation.main.StockBlock
+import com.example.mytestapp.presentation.main.MainScreen
 import com.example.mytestapp.ui.theme.MyAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "home") {
                     composable("home") { HomeScreen(navController) }
-                    composable("investments") { StockBlock(navController) }
+                    composable("investments") { MainScreen(navController) }
                     composable("buy_or_sell") { AddOrSellStockScreen(navController = navController) }
 
                     composable("buy_or_sell?name={name}&price={price}&quantity={quantity}") { navBackStackEntry ->
