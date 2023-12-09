@@ -30,14 +30,15 @@ class ShowInvestmentsViewModel @Inject constructor(
         }
     }
 
+
     fun onEvent(event: ShowInvestmentsEvent) {
         when (event) {
             ShowInvestmentsEvent.UpdateCounterToLatestInvestment -> {
                 scope.launch {
                     investmentUseCases.insertInvestment(
                         Investment(
-                            price = 100L,
-                            count = 300L,
+                            price = 100.0,
+                            count = 300,
                             name = "name: ${Random.nextInt()}"
                         )
                     )
@@ -52,3 +53,4 @@ class ShowInvestmentsViewModel @Inject constructor(
 sealed class ShowInvestmentsEvent {
     object UpdateCounterToLatestInvestment : ShowInvestmentsEvent()
 }
+

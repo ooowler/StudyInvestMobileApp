@@ -10,10 +10,10 @@ data class Investment(
     val uid: Long = 0,
 
     @ColumnInfo(name = "price")
-    val price: Long?,
+    val price: Double,
 
     @ColumnInfo(name = "count")
-    val count: Long,
+    val count: Int,
 
     @ColumnInfo(name = "name")
     val name: String,

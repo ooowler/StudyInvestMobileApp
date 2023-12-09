@@ -9,13 +9,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 
-@Preview(showSystemUi = true)
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun ShowInvestmentsScreen(
+    navController: NavController,
     viewModel: ShowInvestmentsViewModel = hiltViewModel()
 ) {
     Box(
@@ -27,7 +27,7 @@ fun ShowInvestmentsScreen(
     Column {
         val count = viewModel.counterState.value
         val invList = viewModel.listState.value
-        Text(text = "Counter ${1}")
+        Text(text = "Counter ${count}")
         Button(
             onClick = { viewModel.onEvent(ShowInvestmentsEvent.UpdateCounterToLatestInvestment) }
         ) {

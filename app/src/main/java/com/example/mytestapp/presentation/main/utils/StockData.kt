@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.mytestapp.database.domain.use_cases.InvestmentUseCases
 import com.example.mytestapp.navigator.getBuyOrSellRoute
 import com.example.mytestapp.utils.round
-import kotlin.random.Random
 
 data class StockData(val name: String, val price: Double, val quantity: Int)
 
@@ -101,12 +101,16 @@ fun StockBlock(
 }
 
 
-fun getSortedRawStockData(selectedSortOption: SortOption): List<StockData> {
-    val stockDataList = List(5) { index ->
+suspend fun getSortedRawStockData(
+    selectedSortOption: SortOption,
+    investmentUseCases: InvestmentUseCases
+): List<StockData> {
+    val rawData = investmentUseCases.getAllInvestment.invoke()
+    val stockDataList: List<StockData> = rawData.map {
         StockData(
-            name = "Stock $index",
-            price = round(3.14 * Random.nextInt(5, 100), 3),
-            quantity = Random.nextInt(1, 11)
+            name = it.name,
+            price = it.price,
+            quantity = it.count
         )
     }
 
