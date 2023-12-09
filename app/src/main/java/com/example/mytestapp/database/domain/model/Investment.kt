@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Investment(
-    @PrimaryKey val uid: Long?,
+    @PrimaryKey(autoGenerate = true)
+    val uid: Long = 0,
 
     @ColumnInfo(name = "price")
     val price: Long?,

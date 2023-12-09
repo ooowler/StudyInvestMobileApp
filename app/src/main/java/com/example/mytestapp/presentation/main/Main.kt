@@ -32,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mytestapp.R
-import com.example.mytestapp.database.domain.use_cases.getInvestedMoney
 import com.example.mytestapp.presentation.main.utils.ShowDropDownSortMenu
 import com.example.mytestapp.presentation.main.utils.SortOption
 import com.example.mytestapp.presentation.main.utils.StockBlock
@@ -58,7 +57,7 @@ fun MainScreen(
 
 
         val total = 100.1
-        val invested: Double = getInvestedMoney()
+        val invested = 100 + 0.1
         val profit: Double = total - invested
         val profitColor = if (profit >= 0) Color.Green else Color.Red
 

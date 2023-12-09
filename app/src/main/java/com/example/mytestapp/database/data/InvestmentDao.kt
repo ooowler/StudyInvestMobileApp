@@ -11,11 +11,14 @@ interface InvestmentDao {
     @Query("SELECT * FROM investment")
     fun getAllInvestments(): List<Investment>
 
+    @Query("SELECT * FROM investment WHERE uid = :uid")
+    fun findByUid(uid: Long): Investment
+
+    @Query("SELECT SUM(price * count) FROM investment")
+    fun getTotalInvestedBalance(): Double
+
     @Query("SELECT * FROM investment WHERE name = :name")
     fun fundByName(name: String): List<Investment>
-
-    @Query("SELECT * FROM investment WHERE name = :uid")
-    fun fundByUid(uid: Long): Investment?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertInvestment(investment: Investment): Long

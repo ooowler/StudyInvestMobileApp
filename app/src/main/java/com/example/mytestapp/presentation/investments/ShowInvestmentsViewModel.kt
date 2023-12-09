@@ -15,7 +15,7 @@ import kotlin.random.Random
 @HiltViewModel
 class ShowInvestmentsViewModel @Inject constructor(
     private val investmentUseCases: InvestmentUseCases
-): ViewModel() {
+) : ViewModel() {
     private val _counterState = mutableStateOf(0)
     val counterState: State<Int> = _counterState
 
@@ -36,11 +36,10 @@ class ShowInvestmentsViewModel @Inject constructor(
                 scope.launch {
                     investmentUseCases.insertInvestment(
                         Investment(
-                        price = 100L,
-                        count = 300L,
-                        name = "name: ${Random.nextInt()}",
-                        uid = null
-                    )
+                            price = 100L,
+                            count = 300L,
+                            name = "name: ${Random.nextInt()}"
+                        )
                     )
                     Log.d("my tag", "my message")
                     _listState.value = investmentUseCases.getAllInvestment()

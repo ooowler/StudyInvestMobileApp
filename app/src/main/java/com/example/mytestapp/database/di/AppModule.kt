@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.room.Room
 import com.example.mytestapp.database.data.InvestmentDatabase
 import com.example.mytestapp.database.domain.repository.InvestmentRepository
+import com.example.mytestapp.database.domain.use_cases.FindByUidInteractor
 import com.example.mytestapp.database.domain.use_cases.GetAllInvestmentInteractor
+import com.example.mytestapp.database.domain.use_cases.GetTotalInvestedBalanceInteractor
 import com.example.mytestapp.database.domain.use_cases.InsertInvestmentInteractor
 import com.example.mytestapp.database.domain.use_cases.InvestmentUseCases
 import dagger.Module
@@ -35,6 +37,8 @@ object AppModule {
     fun provideInvestmentUseCases(repository: InvestmentRepository): InvestmentUseCases =
         InvestmentUseCases(
             getAllInvestment = GetAllInvestmentInteractor(repository),
-            insertInvestment = InsertInvestmentInteractor(repository)
+            insertInvestment = InsertInvestmentInteractor(repository),
+            getOneInvestment = FindByUidInteractor(repository),
+            getTotalInvestedBalance = GetTotalInvestedBalanceInteractor(repository),
         )
 }

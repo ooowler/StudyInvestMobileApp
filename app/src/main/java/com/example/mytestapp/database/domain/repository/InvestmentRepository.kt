@@ -17,4 +17,14 @@ class InvestmentRepository(
         withContext(Dispatchers.IO) {
             dao.insertInvestment(investment)
         }
+
+    suspend fun getTotalInvestedBalance(): Double =
+        withContext(Dispatchers.IO) {
+            dao.getTotalInvestedBalance()
+        }
+
+    suspend fun findByUid(uid: Long): Investment =
+        withContext(Dispatchers.IO) {
+            dao.findByUid(uid)
+        }
 }
