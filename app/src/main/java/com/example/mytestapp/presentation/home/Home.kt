@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mytestapp.R
+import kotlin.system.exitProcess
 
 
 //@Preview(showSystemUi = true)
@@ -79,13 +80,12 @@ fun HomeScreen(
         // Отступ между "Total balance" и кнопкой
         Spacer(modifier = Modifier.weight(1f))
 
-        // Кнопка выхода из профиля внизу
         TextButton(
             onClick = {
-                // Реализуйте здесь действия при выходе из профиля
+                exitProcess(0)
             }
         ) {
-            Text(text = "Logout", color = MaterialTheme.colorScheme.primary)
+            Text(text = "Exit", color = MaterialTheme.colorScheme.primary)
         }
     }
 }
