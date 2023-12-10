@@ -50,6 +50,7 @@ fun StockStat(label: String, value: Double, color: Color? = null, showSign: Bool
 
 @Composable
 fun StockBlock(
+    uid: Long,
     name: String = "",
     price: Double = 0.0,
     quantity: Int = 0,
@@ -62,7 +63,7 @@ fun StockBlock(
             .background(Color.Gray)
             .shadow(4.dp)
             .clickable {
-                val route = getBuyOrSellRoute(name, price, quantity)
+                val route = getBuyOrSellRoute(uid, name, price, quantity)
                 navController.navigate(route)
             }
     ) {

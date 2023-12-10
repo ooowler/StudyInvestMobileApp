@@ -4,5 +4,6 @@ data class InvestmentUseCases(
     val getAllInvestment: GetAllInvestmentInteractor,
     val insertInvestment: InsertInvestmentInteractor,
     val getOneInvestment: FindByUidInteractor,
-    val getTotalInvestedBalance: GetTotalInvestedBalanceInteractor
+    val getTotalInvestedBalance: GetTotalInvestedBalanceInteractor,
+    val deleteAllInvestments: DeleteAllInvestmentsInteractor
 )

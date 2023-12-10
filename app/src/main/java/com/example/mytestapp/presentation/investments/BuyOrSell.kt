@@ -2,7 +2,6 @@
 
 package com.example.mytestapp.presentation.investments
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,35 +22,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-
-private fun isValidInput(text: String?, price: String?, count: String?): Boolean {
-    try {
-        count?.toInt()
-    } catch (e: NumberFormatException) {
-        return false
-    }
-
-    return (text != "" && price != "" && count != "") &&
-            (price?.toDoubleOrNull()!! > 0) &&
-            (count?.toInt()!! > 0)
-}
+import com.example.mytestapp.database.domain.model.Investment
 
 @Composable
 fun AddOrSellStockScreen(
+    uid: Long,
     stockName: String? = null,
     stockPrice: String? = null,
     stockQuantity: String? = null,
-    navController: NavController
+    navController: NavController,
+    viewModel: ShowInvestmentsViewModel = hiltViewModel()
 ) {
 
     var stockName by remember { mutableStateOf(stockName) }
     var stockPrice by remember { mutableStateOf(stockPrice) }
     var stockQuantity by remember { mutableStateOf(stockQuantity) }
 
-    var nameError by remember { mutableStateOf(false) }
-    var priceError by remember { mutableStateOf(false) }
-    var quantityError by remember { mutableStateOf(false) }
+    var nameIsValid by remember { mutableStateOf(true) }
+    var priceIsValid by remember { mutableStateOf(true) }
+    var quantityIsValid by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
@@ -65,12 +56,12 @@ fun AddOrSellStockScreen(
             value = stockName ?: "",
             onValueChange = {
                 stockName = it
-                nameError = stockName.isNullOrBlank()
+                nameIsValid = isAlphaNumeric(stockName) && ((stockName?.length ?: 0) < 15)
             },
             placeholder = {
-                Text("Имя акции")
+                Text("Apple")
             },
-            colors = TextFieldDefaults.colors(Color.Red),
+            colors = TextFieldDefaults.colors(if (nameIsValid) Color.Black else Color.Red),
             label = { Text("Имя акции") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,19 +74,25 @@ fun AddOrSellStockScreen(
             value = stockPrice.toString(),
             onValueChange = { it ->
                 stockPrice = it
-                priceError = it != ""
+
+                try {
+                    stockPrice?.toDouble()
+                    priceIsValid = true
+                } catch (e: NumberFormatException) {
+                    priceIsValid = false
+                }
             },
+            colors = TextFieldDefaults.colors(if (priceIsValid) Color.Black else Color.Red),
             label = { Text("Цена акции") },
             placeholder = {
                 Text(
-                    "Цена акции",
+                    "100.00",
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .background(if (priceError) Color.Red else Color.Transparent)
         )
 
         // TextField для ввода количества акций
@@ -103,27 +100,33 @@ fun AddOrSellStockScreen(
             value = stockQuantity.toString(),
             onValueChange = {
                 stockQuantity = it
-                quantityError = it != ""
+
+                try {
+                    stockQuantity?.toInt()
+                    quantityIsValid = true
+                } catch (e: NumberFormatException) {
+                    quantityIsValid = false
+                }
             },
             label = { Text("Количество акций") },
             placeholder = {
                 Text(
-                    "Количество акций",
+                    "10",
                 )
             },
+            colors = TextFieldDefaults.colors(if (quantityIsValid) Color.Black else Color.Red),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .background(if (quantityError) Color.Red else Color.Transparent)
         )
 
 
         // Кнопка для подтверждения действия
         Button(
             onClick = {
-                if (isValidInput(stockName, stockPrice, stockQuantity)) {
-                    onTradeComplete(stockName, stockPrice, stockQuantity)
+                if (nameIsValid && priceIsValid && quantityIsValid) {
+                    insertInvestment(uid, stockName, stockPrice, stockQuantity, viewModel)
                     navController.navigate("investments")
                 }
             },
@@ -163,17 +166,32 @@ fun AddOrSellStockScreen(
 }
 
 
-fun onTradeComplete(stockName: String?, stockPrice: String?, stockQuantity: String?): String {
-    val res = "$stockName продал по цене $stockPrice в количестве $stockQuantity"
-    return res
-
+fun insertInvestment(
+    uid: Long,
+    stockName: String?,
+    stockPrice: String?,
+    stockQuantity: String?,
+    viewModel: ShowInvestmentsViewModel
+) {
+    val invest = Investment(
+        uid = uid,
+        name = stockName.toString(),
+        price = stockPrice!!.toDouble(),
+        count = stockQuantity!!.toInt(),
+    )
+    viewModel.insertInvest(invest)
 }
 
 fun onTradeDelete(): String {
+
     return "deleted"
 }
 
 fun onTradeCancel(): String {
     return "canceled"
+}
+
+fun isAlphaNumeric(input: String?): Boolean {
+    return input?.matches("[a-zA-Z0-9]+".toRegex()) == true
 }
 

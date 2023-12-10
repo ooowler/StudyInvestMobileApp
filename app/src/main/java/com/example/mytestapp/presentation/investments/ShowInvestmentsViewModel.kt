@@ -1,6 +1,5 @@
 package com.example.mytestapp.presentation.investments
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.example.mytestapp.database.domain.use_cases.InvestmentUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class ShowInvestmentsViewModel @Inject constructor(
@@ -18,6 +16,9 @@ class ShowInvestmentsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _counterState = mutableStateOf(0)
     val counterState: State<Int> = _counterState
+
+    private val _totalBalance = mutableStateOf(0.0)
+    val totalBalance: State<Double> = _totalBalance
 
     private val _listState = mutableStateOf(listOf<Investment>())
     val listState: State<List<Investment>> = _listState
@@ -27,30 +28,20 @@ class ShowInvestmentsViewModel @Inject constructor(
     init {
         scope.launch {
             _listState.value = investmentUseCases.getAllInvestment()
+            _totalBalance.value = investmentUseCases.getTotalInvestedBalance()
         }
     }
 
-
-    fun onEvent(event: ShowInvestmentsEvent) {
-        when (event) {
-            ShowInvestmentsEvent.UpdateCounterToLatestInvestment -> {
-                scope.launch {
-                    investmentUseCases.insertInvestment(
-                        Investment(
-                            price = 100.0,
-                            count = 300,
-                            name = "name: ${Random.nextInt()}"
-                        )
-                    )
-                    Log.d("my tag", "my message")
-                    _listState.value = investmentUseCases.getAllInvestment()
-                }
-            }
+    fun insertInvest(invest: Investment) {
+        scope.launch {
+            investmentUseCases.insertInvestment(invest)
         }
     }
-}
 
-sealed class ShowInvestmentsEvent {
-    object UpdateCounterToLatestInvestment : ShowInvestmentsEvent()
+    fun deleteAllInvestments() {
+        scope.launch {
+            investmentUseCases.deleteAllInvestments()
+        }
+    }
 }
 

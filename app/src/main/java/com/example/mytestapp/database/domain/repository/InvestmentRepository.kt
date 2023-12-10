@@ -27,4 +27,9 @@ class InvestmentRepository(
         withContext(Dispatchers.IO) {
             dao.findByUid(uid)
         }
+
+    suspend fun deleteAllInvestments() =
+        withContext(Dispatchers.IO) {
+            dao.deleteAllInvestments()
+        }
 }

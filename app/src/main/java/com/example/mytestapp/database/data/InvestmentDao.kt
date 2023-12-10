@@ -20,6 +20,9 @@ interface InvestmentDao {
     @Query("SELECT * FROM investment WHERE name = :name")
     fun fundByName(name: String): List<Investment>
 
+    @Query("DELETE FROM investment")
+    suspend fun deleteAllInvestments()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertInvestment(investment: Investment): Long
 }

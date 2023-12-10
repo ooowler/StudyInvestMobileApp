@@ -27,14 +27,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.mytestapp.R
+import com.example.mytestapp.presentation.investments.ShowInvestmentsViewModel
 import kotlin.system.exitProcess
 
 
 @Composable
 fun HomeScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ShowInvestmentsViewModel = hiltViewModel()
 ) {
     val totalBalance by remember { mutableStateOf(getTotalBalance()) }
 

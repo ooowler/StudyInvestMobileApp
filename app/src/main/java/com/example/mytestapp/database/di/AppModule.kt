@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.example.mytestapp.database.data.InvestmentDatabase
 import com.example.mytestapp.database.domain.repository.InvestmentRepository
+import com.example.mytestapp.database.domain.use_cases.DeleteAllInvestmentsInteractor
 import com.example.mytestapp.database.domain.use_cases.FindByUidInteractor
 import com.example.mytestapp.database.domain.use_cases.GetAllInvestmentInteractor
 import com.example.mytestapp.database.domain.use_cases.GetTotalInvestedBalanceInteractor
@@ -39,5 +40,6 @@ object AppModule {
             insertInvestment = InsertInvestmentInteractor(repository),
             getOneInvestment = FindByUidInteractor(repository),
             getTotalInvestedBalance = GetTotalInvestedBalanceInteractor(repository),
+            deleteAllInvestments = DeleteAllInvestmentsInteractor(repository),
         )
 }
