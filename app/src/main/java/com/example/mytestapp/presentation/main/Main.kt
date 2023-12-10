@@ -97,8 +97,13 @@ fun MainScreen(
             )
         }
 
+        val rawStockData = viewModel.listState.value
+        val sortedRawStockData = when (selectedSortOption) {
+            SortOption.Total -> rawStockData.sortedByDescending { it.price * it.count }
+            SortOption.Quantity -> rawStockData.sortedByDescending { it.count }
+            SortOption.Price -> rawStockData.sortedByDescending { it.price }
+        }
 
-        val sortedRawStockData = viewModel.listState.value
         val composeBlocks = sortedRawStockData.map { stockData ->
             StockBlock(
                 uid = stockData.uid,
@@ -141,7 +146,7 @@ fun ShowPortfolioNameAndImage(navController: NavController) {
                 )
                 .padding(4.dp)
                 .clip(CircleShape)
-                .clickable {navController.navigate("home") }
+                .clickable { navController.navigate("home") }
         )
     }
 }

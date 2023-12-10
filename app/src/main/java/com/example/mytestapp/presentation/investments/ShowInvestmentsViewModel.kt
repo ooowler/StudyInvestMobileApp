@@ -15,13 +15,13 @@ class ShowInvestmentsViewModel @Inject constructor(
     private val investmentUseCases: InvestmentUseCases
 ) : ViewModel() {
     private val _counterState = mutableStateOf(0)
-    val counterState: State<Int> = _counterState
+    val counterState: State<Int> get() = _counterState
 
     private val _totalBalance = mutableStateOf(0.0)
-    val totalBalance: State<Double> = _totalBalance
+    val totalBalance: State<Double> get() = _totalBalance
 
     private val _listState = mutableStateOf(listOf<Investment>())
-    val listState: State<List<Investment>> = _listState
+    val listState: State<List<Investment>> get() = _listState
 
     val scope = viewModelScope
 
@@ -35,13 +35,16 @@ class ShowInvestmentsViewModel @Inject constructor(
     fun insertInvest(invest: Investment) {
         scope.launch {
             investmentUseCases.insertInvestment(invest)
+            _listState.value = investmentUseCases.getAllInvestment()
+            _totalBalance.value = investmentUseCases.getTotalInvestedBalance()
         }
     }
 
     fun deleteAllInvestments() {
         scope.launch {
             investmentUseCases.deleteAllInvestments()
+            _listState.value = investmentUseCases.getAllInvestment()
+            _totalBalance.value = investmentUseCases.getTotalInvestedBalance()
         }
     }
 }
-

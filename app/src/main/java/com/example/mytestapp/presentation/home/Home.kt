@@ -17,9 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,8 +36,6 @@ fun HomeScreen(
     navController: NavController,
     viewModel: ShowInvestmentsViewModel = hiltViewModel()
 ) {
-    val totalBalance by remember { mutableStateOf(getTotalBalance()) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,7 +47,7 @@ fun HomeScreen(
         ProfileImage()
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Total balance: $totalBalance", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Total balance: ${viewModel.totalBalance.value}", style = MaterialTheme.typography.bodyMedium)
         Spacer(modifier = Modifier.height(16.dp))
 
         GoMainScreenButton(navController)
